@@ -65,55 +65,12 @@ class _MainShellState extends State<MainShell> {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Logo 容器 — 渐变方形
-            Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF6D28D9), Color(0xFFA855F7)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: NiubiColors.primary.withValues(alpha: 0.35),
-                    blurRadius: 10,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: const Icon(Icons.auto_awesome_rounded,
-                  color: Colors.white, size: 16),
-            ),
-            const SizedBox(width: 9),
-            const Text(
-              '牛批AI',
-              style: TextStyle(
-                fontWeight: FontWeight.w800,
-                color: NiubiColors.textPrimary,
-                fontSize: 17,
-                letterSpacing: 0.3,
-              ),
-            ),
-            const SizedBox(width: 7),
-            Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(
-                color: NiubiColors.primary.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(
-                    color: NiubiColors.primary.withValues(alpha: 0.25)),
-              ),
-              child: const Text(
-                'AI',
-                style: TextStyle(
-                    fontSize: 9,
-                    fontWeight: FontWeight.w800,
-                    color: NiubiColors.primaryLight,
-                    letterSpacing: 0.5),
+            // AppBar Logo — 使用横版 logo_horizontal.png
+            SizedBox(
+              height: 32,
+              child: Image.asset(
+                'assets/images/logo_horizontal.png',
+                fit: BoxFit.contain,
               ),
             ),
           ],

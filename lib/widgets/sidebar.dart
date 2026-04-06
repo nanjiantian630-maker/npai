@@ -24,54 +24,16 @@ class NiubiSidebar extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Logo
+          // Logo — 使用横版 logo_horizontal.png
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 22, 20, 16),
-            child: Row(
-              children: [
-                Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [NiubiColors.primaryDark, NiubiColors.accent],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: NiubiColors.primary.withValues(alpha: 0.4),
-                        blurRadius: 12,
-                      )
-                    ],
-                  ),
-                  child: const Icon(NiubiIcons.logo, color: Colors.white, size: 20),
-                ),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ShaderMask(
-                      shaderCallback: (bounds) => const LinearGradient(
-                        colors: [NiubiColors.primary, NiubiColors.accent],
-                      ).createShader(bounds),
-                      child: const Text(
-                        '牛批AI',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    const Text(
-                      'AI视频智能体平台',
-                      style: TextStyle(fontSize: 10, color: NiubiColors.textMuted),
-                    ),
-                  ],
-                ),
-              ],
+            padding: const EdgeInsets.fromLTRB(16, 20, 16, 14),
+            child: SizedBox(
+              height: 36,
+              child: Image.asset(
+                'assets/images/logo_horizontal.png',
+                fit: BoxFit.contain,
+                alignment: Alignment.centerLeft,
+              ),
             ),
           ),
           const Divider(height: 1, color: NiubiColors.borderLight),

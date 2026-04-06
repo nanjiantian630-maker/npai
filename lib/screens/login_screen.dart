@@ -142,27 +142,31 @@ class _LoginScreenState extends State<LoginScreen>
   // ── Logo ─────────────────────────────────────────────────
   Widget _buildLogo() {
     return Column(children: [
+      // 使用 logo_square.png 作为登录页主 Logo
       Container(
-        width: 76, height: 76,
+        width: 160,
+        height: 160,
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [NiubiColors.primaryDark, NiubiColors.primary, NiubiColors.accent],
-            begin: Alignment.topLeft, end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(22),
-          boxShadow: [BoxShadow(
-            color: NiubiColors.primary.withValues(alpha: 0.45), blurRadius: 32, spreadRadius: 2,
-          )],
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: NiubiColors.primary.withValues(alpha: 0.30),
+              blurRadius: 48,
+              spreadRadius: 8,
+            ),
+            BoxShadow(
+              color: const Color(0xFF22D3EE).withValues(alpha: 0.15),
+              blurRadius: 32,
+              spreadRadius: 4,
+            ),
+          ],
         ),
-        child: const Icon(NiubiIcons.logo, color: Colors.white, size: 38),
-      ),
-      const SizedBox(height: 16),
-      ShaderMask(
-        shaderCallback: (b) => const LinearGradient(
-          colors: [NiubiColors.primary, NiubiColors.accent],
-        ).createShader(b),
-        child: const Text('牛批AI',
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800, color: Colors.white)),
+        child: ClipOval(
+          child: Image.asset(
+            'assets/images/logo_square.png',
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
       const SizedBox(height: 6),
       const Text('AI驱动 · 视频智能体平台',
