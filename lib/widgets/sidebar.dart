@@ -24,13 +24,13 @@ class NiubiSidebar extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Logo — 使用横版 logo_horizontal.png
+          // Logo — 透明扔图横版 logo
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 20, 16, 14),
             child: SizedBox(
-              height: 36,
+              height: 44,
               child: Image.asset(
-                'assets/images/logo_horizontal.png',
+                'assets/images/logo_horizontal_transparent.png',
                 fit: BoxFit.contain,
                 alignment: Alignment.centerLeft,
               ),

@@ -142,33 +142,38 @@ class _LoginScreenState extends State<LoginScreen>
   // ── Logo ─────────────────────────────────────────────────
   Widget _buildLogo() {
     return Column(children: [
-      // 使用 logo_square.png 作为登录页主 Logo
-      Container(
-        width: 160,
-        height: 160,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: NiubiColors.primary.withValues(alpha: 0.30),
-              blurRadius: 48,
-              spreadRadius: 8,
+      // 登录页 Logo — 透明抠图版，带光晕
+      Stack(
+        alignment: Alignment.center,
+        children: [
+          // 背景光晕层
+          Container(
+            width: 220,
+            height: 220,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: RadialGradient(
+                colors: [
+                  NiubiColors.primary.withValues(alpha: 0.18),
+                  const Color(0xFF22D3EE).withValues(alpha: 0.08),
+                  Colors.transparent,
+                ],
+                stops: const [0.0, 0.5, 1.0],
+              ),
             ),
-            BoxShadow(
-              color: const Color(0xFF22D3EE).withValues(alpha: 0.15),
-              blurRadius: 32,
-              spreadRadius: 4,
-            ),
-          ],
-        ),
-        child: ClipOval(
-          child: Image.asset(
-            'assets/images/logo_square.png',
-            fit: BoxFit.cover,
           ),
-        ),
+          // Logo 图片（透明背景）
+          SizedBox(
+            width: 200,
+            height: 200,
+            child: Image.asset(
+              'assets/images/logo_square_transparent.png',
+              fit: BoxFit.contain,
+            ),
+          ),
+        ],
       ),
-      const SizedBox(height: 6),
+      const SizedBox(height: 4),
       const Text('AI驱动 · 视频智能体平台',
           style: TextStyle(color: NiubiColors.textMuted, fontSize: 13)),
     ]);

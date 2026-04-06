@@ -65,11 +65,11 @@ class _MainShellState extends State<MainShell> {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // AppBar Logo — 使用横版 logo_horizontal.png
+            // AppBar Logo — 透明扔图版，加大尺寸确保可见
             SizedBox(
-              height: 32,
+              height: 40,
               child: Image.asset(
-                'assets/images/logo_horizontal.png',
+                'assets/images/logo_horizontal_transparent.png',
                 fit: BoxFit.contain,
               ),
             ),
