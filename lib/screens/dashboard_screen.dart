@@ -15,19 +15,19 @@ class _DashboardScreenState extends State<DashboardScreen>
   final _searchCtrl = TextEditingController();
   bool _searchFocused = false;
 
-  // 功能入口数据
+  // 功能入口数据 — 统一紫色主色调，去掉多彩
   final _features = const [
-    {'icon': Icons.edit_note_rounded,          'label': '文字生视频', 'color': Color(0xFF7C3AED), 'page': 1},
-    {'icon': Icons.image_rounded,              'label': '图片生视频', 'color': Color(0xFF0891B2), 'page': 1},
-    {'icon': Icons.movie_creation_rounded,     'label': '短剧制作',  'color': Color(0xFFDB2777), 'page': 3},
-    {'icon': Icons.storefront_rounded,         'label': '商品视频',  'color': Color(0xFFD97706), 'page': 2},
-    {'icon': Icons.auto_awesome_mosaic_rounded,'label': '模板市场',  'color': Color(0xFF059669), 'page': 4},
-    {'icon': Icons.filter_frames_rounded,      'label': '首尾帧',    'color': Color(0xFF7C3AED), 'page': 1},
-    {'icon': Icons.compare_rounded,            'label': '对比视频',  'color': Color(0xFF0284C7), 'page': 2},
-    {'icon': Icons.campaign_rounded,           'label': '营销推广',  'color': Color(0xFFEA580C), 'page': 2},
-    {'icon': Icons.perm_media_rounded,         'label': '素材库',    'color': Color(0xFF7E22CE), 'page': 5},
-    {'icon': Icons.history_rounded,            'label': '历史记录',  'color': Color(0xFF334155), 'page': 0},
-    {'icon': Icons.auto_fix_high_rounded,      'label': '智能创作',  'color': Color(0xFF0F766E), 'page': 1},
+    {'icon': Icons.edit_note_rounded,           'label': '文字生视频', 'page': 1},
+    {'icon': Icons.image_rounded,               'label': '图片生视频', 'page': 1},
+    {'icon': Icons.movie_creation_rounded,      'label': '短剧制作',   'page': 3},
+    {'icon': Icons.storefront_rounded,          'label': '商品视频',   'page': 2},
+    {'icon': Icons.auto_awesome_mosaic_rounded, 'label': '模板市场',   'page': 4},
+    {'icon': Icons.filter_frames_rounded,       'label': '首尾帧',     'page': 1},
+    {'icon': Icons.compare_rounded,             'label': '对比视频',   'page': 2},
+    {'icon': Icons.campaign_rounded,            'label': '营销推广',   'page': 2},
+    {'icon': Icons.perm_media_rounded,          'label': '素材库',     'page': 5},
+    {'icon': Icons.history_rounded,             'label': '历史记录',   'page': 0},
+    {'icon': Icons.auto_fix_high_rounded,       'label': '智能创作',   'page': 1},
   ];
 
   // 最近任务
@@ -83,7 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen>
               _buildSearchBox(),
               const SizedBox(height: 40),
               // ③ 功能入口 Grid
-              _buildFeatureGrid(crossCount: 6),
+              _buildFeatureGrid(crossCount: 6, isMobile: false),
               const SizedBox(height: 40),
               // ④ 最近任务
               _buildRecentSection(),
@@ -142,7 +142,7 @@ class _DashboardScreenState extends State<DashboardScreen>
           // ③ 功能入口
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: _buildFeatureGrid(crossCount: 4),
+            child: _buildFeatureGrid(crossCount: 4, isMobile: true),
           ),
           const SizedBox(height: 24),
           // ④ 最近任务
@@ -234,26 +234,26 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   // ══════════════════════════════════════════════
-  // 搜索框 (共用)
+  // 搜索框 — 极简版，只保留上传+发送
   // ══════════════════════════════════════════════
   Widget _buildSearchBox() {
     return Focus(
       onFocusChange: (v) => setState(() => _searchFocused = v),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+        padding: const EdgeInsets.fromLTRB(18, 4, 12, 10),
         decoration: BoxDecoration(
           color: NiubiColors.bgCard,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: _searchFocused
-                ? NiubiColors.primary.withValues(alpha: 0.6)
+                ? NiubiColors.primary.withValues(alpha: 0.55)
                 : NiubiColors.borderColor,
             width: _searchFocused ? 1.5 : 1,
           ),
           boxShadow: _searchFocused
-              ? [BoxShadow(color: NiubiColors.primary.withValues(alpha: 0.12),
-                  blurRadius: 20)]
+              ? [BoxShadow(color: NiubiColors.primary.withValues(alpha: 0.10),
+                  blurRadius: 24)]
               : [],
         ),
         child: Column(
@@ -261,61 +261,48 @@ class _DashboardScreenState extends State<DashboardScreen>
             TextField(
               controller: _searchCtrl,
               style: const TextStyle(color: NiubiColors.textPrimary, fontSize: 15),
-              maxLines: 3,
-              minLines: 1,
+              maxLines: 4,
+              minLines: 2,
               decoration: const InputDecoration(
-                hintText: '询问任何问题，创造任何视频内容...',
+                hintText: '描述你想要生成的视频内容...',
                 hintStyle: TextStyle(color: NiubiColors.textMuted, fontSize: 14),
                 border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(vertical: 14),
+                contentPadding: EdgeInsets.symmetric(vertical: 12),
               ),
             ),
-            // 底部工具栏
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Row(
-                children: [
-                  // 左侧附件按钮
-                  _toolBtn(Icons.add_rounded, null),
-                  const SizedBox(width: 4),
-                  _toolBtn(Icons.image_outlined, null),
-                  const SizedBox(width: 4),
-                  _toolBtn(Icons.video_library_outlined, null),
-                  const SizedBox(width: 8),
-                  // 模式标签
-                  _modeChip(Icons.auto_fix_high_rounded, '智能生成'),
-                  const Spacer(),
-                  // 语音
-                  _toolBtn(Icons.mic_none_rounded, null),
-                  const SizedBox(width: 8),
-                  // 发送按钮
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [NiubiColors.primaryDark, NiubiColors.primary],
+            // 底部：仅上传 + 发送
+            Row(
+              children: [
+                // 上传附件（单一图标，低调）
+                GestureDetector(
+                  onTap: () {},
+                  child: Icon(Icons.add_circle_outline_rounded,
+                      color: NiubiColors.textMuted, size: 20),
+                ),
+                const Spacer(),
+                // 发送按钮
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 9),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [NiubiColors.primaryDark, NiubiColors.primary],
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: NiubiColors.primary.withValues(alpha: 0.30),
+                          blurRadius: 14, offset: const Offset(0, 4),
                         ),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(color: NiubiColors.primary.withValues(alpha: 0.35),
-                              blurRadius: 12),
-                        ],
-                      ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.bolt_rounded, color: Colors.white, size: 15),
-                          SizedBox(width: 4),
-                          Text('生成', style: TextStyle(color: Colors.white,
-                              fontSize: 13, fontWeight: FontWeight.w700)),
-                        ],
-                      ),
+                      ],
                     ),
+                    child: const Text('生成',
+                        style: TextStyle(color: Colors.white,
+                            fontSize: 14, fontWeight: FontWeight.w700)),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
@@ -323,87 +310,58 @@ class _DashboardScreenState extends State<DashboardScreen>
     );
   }
 
-  Widget _toolBtn(IconData icon, VoidCallback? onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 32, height: 32,
-        decoration: BoxDecoration(
-          color: NiubiColors.bgHover,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: NiubiColors.borderLight),
-        ),
-        child: Icon(icon, color: NiubiColors.textMuted, size: 16),
-      ),
-    );
-  }
-
-  Widget _modeChip(IconData icon, String label) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: NiubiColors.bgHover,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: NiubiColors.borderLight),
-      ),
-      child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Icon(icon, color: NiubiColors.primary, size: 13),
-        const SizedBox(width: 5),
-        Text(label, style: const TextStyle(
-            color: NiubiColors.textSecondary, fontSize: 12,
-            fontWeight: FontWeight.w500)),
-      ]),
-    );
-  }
-
   // ══════════════════════════════════════════════
   // 功能入口 Grid (共用)
   // ══════════════════════════════════════════════
-  Widget _buildFeatureGrid({required int crossCount}) {
+  Widget _buildFeatureGrid({required int crossCount, bool isMobile = false}) {
+    // 手机端只展示前8个，避免太多
+    final items = isMobile ? _features.take(8).toList() : _features;
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossCount,
-        crossAxisSpacing: crossCount == 4 ? 12 : 16,
-        mainAxisSpacing: crossCount == 4 ? 16 : 20,
-        childAspectRatio: crossCount == 4 ? 1.05 : 0.88,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: isMobile ? 20 : 22,
+        childAspectRatio: isMobile ? 1.0 : 0.90,
       ),
-      itemCount: _features.length,
-      itemBuilder: (_, i) => _buildFeatureItem(_features[i], crossCount),
+      itemCount: items.length,
+      itemBuilder: (_, i) => _buildFeatureItem(items[i], crossCount),
     );
   }
 
   Widget _buildFeatureItem(Map<String, dynamic> f, int crossCount) {
-    final color = f['color'] as Color;
     final isSmall = crossCount >= 6;
+    final iconSize = isSmall ? 52.0 : 58.0;
     return GestureDetector(
       onTap: () {},
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // 圆形彩色图标
+          // 统一紫色调圆形图标容器
           Container(
-            width: isSmall ? 56 : 64,
-            height: isSmall ? 56 : 64,
+            width: iconSize, height: iconSize,
             decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.15),
+              color: NiubiColors.primary.withValues(alpha: 0.10),
               shape: BoxShape.circle,
-              border: Border.all(color: color.withValues(alpha: 0.25), width: 1.5),
-              boxShadow: [
-                BoxShadow(color: color.withValues(alpha: 0.20), blurRadius: 12),
-              ],
+              border: Border.all(
+                color: NiubiColors.primary.withValues(alpha: 0.18),
+                width: 1,
+              ),
             ),
-            child: Icon(f['icon'] as IconData, color: color,
-                size: isSmall ? 26 : 30),
+            child: Icon(
+              f['icon'] as IconData,
+              color: NiubiColors.primary.withValues(alpha: 0.85),
+              size: isSmall ? 22 : 26,
+            ),
           ),
-          SizedBox(height: isSmall ? 8 : 10),
+          SizedBox(height: isSmall ? 7 : 8),
           Text(
             f['label'] as String,
-            style: TextStyle(
-              fontSize: isSmall ? 11 : 12,
+            style: const TextStyle(
+              fontSize: 11,
               color: NiubiColors.textSecondary,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
             ),
             textAlign: TextAlign.center,
             maxLines: 1,
