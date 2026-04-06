@@ -60,45 +60,121 @@ class _MainShellState extends State<MainShell> {
       backgroundColor: NiubiColors.bgPage,
       appBar: AppBar(
         backgroundColor: NiubiColors.bgDeepest,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // Logo 容器 — 渐变方形
             Container(
-              width: 28,
-              height: 28,
+              width: 30,
+              height: 30,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [NiubiColors.primaryDark, NiubiColors.accent],
+                  colors: [Color(0xFF6D28D9), Color(0xFFA855F7)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(7),
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: NiubiColors.primary.withValues(alpha: 0.35),
+                    blurRadius: 10,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
-              child: const Icon(NiubiIcons.logo, color: Colors.white, size: 16),
+              child: const Icon(Icons.auto_awesome_rounded,
+                  color: Colors.white, size: 16),
             ),
-            const SizedBox(width: 8),
-            ShaderMask(
-              shaderCallback: (bounds) => const LinearGradient(
-                colors: [NiubiColors.primary, NiubiColors.accent],
-              ).createShader(bounds),
+            const SizedBox(width: 9),
+            const Text(
+              '牛批AI',
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                color: NiubiColors.textPrimary,
+                fontSize: 17,
+                letterSpacing: 0.3,
+              ),
+            ),
+            const SizedBox(width: 7),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: NiubiColors.primary.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(
+                    color: NiubiColors.primary.withValues(alpha: 0.25)),
+              ),
               child: const Text(
-                '牛批AI',
+                'AI',
                 style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
-                  fontSize: 17,
-                ),
+                    fontSize: 9,
+                    fontWeight: FontWeight.w800,
+                    color: NiubiColors.primaryLight,
+                    letterSpacing: 0.5),
               ),
             ),
           ],
         ),
         leading: IconButton(
-          icon: const Icon(Icons.menu_rounded, color: NiubiColors.textPrimary),
+          icon: Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.05),
+              borderRadius: BorderRadius.circular(9),
+              border: Border.all(
+                  color: NiubiColors.borderColor.withValues(alpha: 0.5)),
+            ),
+            child: const Icon(Icons.menu_rounded,
+                color: NiubiColors.textSecondary, size: 18),
+          ),
           onPressed: () => setState(() => _sidebarOpen = !_sidebarOpen),
         ),
+        actions: [
+          // 通知按钮
+          Container(
+            margin: const EdgeInsets.only(right: 4),
+            child: IconButton(
+              icon: Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(9),
+                  border: Border.all(
+                      color: NiubiColors.borderColor.withValues(alpha: 0.5)),
+                ),
+                child: const Icon(Icons.notifications_none_rounded,
+                    color: NiubiColors.textSecondary, size: 17),
+              ),
+              onPressed: () {},
+            ),
+          ),
+          // 头像
+          Container(
+            margin: const EdgeInsets.only(right: 12),
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF6D28D9), Color(0xFFA855F7)],
+                ),
+                borderRadius: BorderRadius.circular(9),
+              ),
+              child:
+                  const Icon(Icons.person_rounded, color: Colors.white, size: 16),
+            ),
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(height: 1, color: NiubiColors.borderLight),
+          child: Container(
+              height: 1,
+              color: NiubiColors.borderLight.withValues(alpha: 0.5)),
         ),
       ),
       drawer: Drawer(
@@ -118,21 +194,24 @@ class _MainShellState extends State<MainShell> {
 
   Widget _buildBottomNav() {
     const items = [
-      {'icon': NiubiIcons.dashboard,  'label': '控制台'},
-      {'icon': NiubiIcons.workbench,  'label': '工作台'},
-      {'icon': NiubiIcons.merchant,   'label': '商家'},
-      {'icon': NiubiIcons.drama,      'label': '短剧'},
-      {'icon': NiubiIcons.templates,  'label': '模板'},
+      {'icon': NiubiIcons.dashboard, 'label': '控制台'},
+      {'icon': NiubiIcons.workbench, 'label': '工作台'},
+      {'icon': NiubiIcons.merchant,  'label': '商家'},
+      {'icon': NiubiIcons.drama,     'label': '短剧'},
+      {'icon': NiubiIcons.templates, 'label': '模板'},
     ];
 
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: NiubiColors.bgDeepest,
-        border: Border(top: BorderSide(color: NiubiColors.borderLight)),
+        border: Border(
+          top: BorderSide(
+              color: NiubiColors.borderLight.withValues(alpha: 0.5)),
+        ),
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6),
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: List.generate(items.length, (i) {
@@ -140,31 +219,41 @@ class _MainShellState extends State<MainShell> {
               final iconData = items[i]['icon'] as IconData;
               return GestureDetector(
                 onTap: () => _navigate(i),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 180),
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: isActive
-                        ? NiubiColors.primary.withValues(alpha: 0.12)
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                behavior: HitTestBehavior.opaque,
+                child: SizedBox(
+                  width: 60,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        iconData,
-                        size: 22,
-                        color: isActive ? NiubiColors.primary : NiubiColors.textMuted,
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        width: isActive ? 40 : 36,
+                        height: isActive ? 32 : 28,
+                        decoration: BoxDecoration(
+                          color: isActive
+                              ? NiubiColors.primary.withValues(alpha: 0.14)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(isActive ? 12 : 8),
+                        ),
+                        child: Icon(
+                          iconData,
+                          size: isActive ? 22 : 20,
+                          color: isActive
+                              ? NiubiColors.primary
+                              : NiubiColors.textMuted,
+                        ),
                       ),
                       const SizedBox(height: 3),
-                      Text(
-                        items[i]['label'] as String,
+                      AnimatedDefaultTextStyle(
+                        duration: const Duration(milliseconds: 200),
                         style: TextStyle(
                           fontSize: 10,
-                          color: isActive ? NiubiColors.primaryLight : NiubiColors.textMuted,
+                          color: isActive
+                              ? NiubiColors.primaryLight
+                              : NiubiColors.textMuted,
                           fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
                         ),
+                        child: Text(items[i]['label'] as String),
                       ),
                     ],
                   ),
